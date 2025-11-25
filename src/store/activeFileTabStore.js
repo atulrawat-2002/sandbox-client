@@ -11,7 +11,7 @@ export const useActiveFileTabStore = create((set) => {
                     path: path,
                     extension: extension
                 }
-            })
+            }) 
         }
     }
 })

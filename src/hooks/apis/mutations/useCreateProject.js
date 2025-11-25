@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { createProjectApi } from "../../../apis/createProject.js"
+import { createProjectApi } from "../../../apis/project.js"
 
 export const useCreateProject = () => {
     const {mutateAsync, isPending, isSuccess, error} = useMutation({
