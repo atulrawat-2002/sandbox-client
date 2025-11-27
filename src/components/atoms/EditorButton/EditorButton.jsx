@@ -16,7 +16,7 @@ const EditorButton = ({isActive}) => {
     }}
     onClick={handleClick}
     >
-        Hey
+         file.js
         </button>
 
 )

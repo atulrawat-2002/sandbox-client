@@ -1,7 +1,7 @@
 import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
 
-
-export const useActiveFileTabStore = create((set) => {
+export const useActiveFileTabStore = create(devtools((set) => {
     return {
         activeFileTab: null,
         setActiveFileTab: (value, path, extension) => {
@@ -14,4 +14,4 @@ export const useActiveFileTabStore = create((set) => {
             }) 
         }
     }
-})
+}))
