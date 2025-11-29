@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { SlArrowDown, SlArrowRight } from "react-icons/sl";
+import FileIcon from "../../atoms/FileIcon/FileIcon";
 
 const TreeNode = ({ fileFolderData }) => {
   const [visiblity, setVisiblity] = useState({});
@@ -12,6 +13,11 @@ const TreeNode = ({ fileFolderData }) => {
       [name]: !visiblity[name],
     });
   };
+
+  function computeExtension(fileFolderData) {
+    const names = fileFolderData?.name.split('.')
+    return names[names.length - 1]
+  }
 
   return (
     <>
@@ -51,9 +57,14 @@ const TreeNode = ({ fileFolderData }) => {
               </button>
             </div>
           ) : (
+            <div style={{
+              display: 'flex',
+              alignItems: 'center'
+            }} >
+              <FileIcon extension={ computeExtension(fileFolderData) } />
             <p
               style={{
-                paddingTop: "9px",
+                // paddingTop: "9px",
                 fontSize: "14px",
                 cursor: "pointer",
                 marginLeft: "5px",
@@ -62,6 +73,7 @@ const TreeNode = ({ fileFolderData }) => {
             >
               {fileFolderData.name}
             </p>
+            </div>
           )}
 
           {fileFolderData?.children &&
