@@ -15,7 +15,11 @@ const ProjectPlayground = () => {
     }, [setProjectId, projectIdFromUrl])
 
   return (
-    <>        
+    <div
+      style={{
+        display: 'flex'
+      }}
+    >        
     { projectId && 
       <div 
         style={{
@@ -32,9 +36,9 @@ const ProjectPlayground = () => {
       </div>
     }
     <EditorComponents />
-    <EditorButton isActive={true} />
-    <EditorButton isActive={false} />
-    </>
+    {/* <EditorButton isActive={true} />
+    <EditorButton isActive={false} /> */}
+    </div>
   )
 }
 

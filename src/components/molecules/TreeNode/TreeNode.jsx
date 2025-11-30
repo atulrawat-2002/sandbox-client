@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { SlArrowDown, SlArrowRight } from "react-icons/sl";
 import FileIcon from "../../atoms/FileIcon/FileIcon";
+import './TreeNode.css'
 
 const TreeNode = ({ fileFolderData }) => {
   const [visiblity, setVisiblity] = useState({});
@@ -29,7 +30,7 @@ const TreeNode = ({ fileFolderData }) => {
           }}
         >
           {fileFolderData?.children ? (
-            <div>
+            <div className="folder" >
               <button
                 onClick={() => {
                   toggleVisiblity(fileFolderData?.name);
@@ -57,9 +58,10 @@ const TreeNode = ({ fileFolderData }) => {
               </button>
             </div>
           ) : (
-            <div style={{
+            <div className="files" style={{
               display: 'flex',
-              alignItems: 'center'
+              alignItems: 'center',
+              marginLeft: '5px'
             }} >
               <FileIcon extension={ computeExtension(fileFolderData) } />
             <p
@@ -67,7 +69,7 @@ const TreeNode = ({ fileFolderData }) => {
                 // paddingTop: "9px",
                 fontSize: "14px",
                 cursor: "pointer",
-                marginLeft: "5px",
+                // marginLeft: "5px",
                 
               }}
             >

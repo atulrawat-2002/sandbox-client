@@ -11,7 +11,7 @@ const EditorComponents = () => {
   return (
     <>
       <Editor
-        height={"80vh"}
+        height={"100vh"}
         width={"100%"}
         defaultLanguage="javascript"
         defaultValue="// You can write javascript code here"
