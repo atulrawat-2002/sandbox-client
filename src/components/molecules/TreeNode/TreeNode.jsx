@@ -14,6 +14,10 @@ const TreeNode = ({ fileFolderData }) => {
     console.log(data)
   }
 
+  const handleContextMenuForFile = (e, path) => {
+    console.log(e, path)
+  }
+
   const toggleVisiblity = (name) => {
 
     setVisiblity({
@@ -34,10 +38,15 @@ const TreeNode = ({ fileFolderData }) => {
           style={{
             paddingLeft: "5px",
             color: "white",
+            
           }}
         >
           {fileFolderData?.children ? (
-            <div className="folder" >
+            <div className="folder" 
+              style={{
+                
+              }}
+            >
               <button
                 onClick={() => {
                   toggleVisiblity(fileFolderData?.name);
@@ -49,7 +58,7 @@ const TreeNode = ({ fileFolderData }) => {
                   background: 'transparent',
                   paddingTop: '10px',
                   fontSize: '14px',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
                 }}
               >
                 {visiblity[fileFolderData.name] ? (
@@ -68,18 +77,19 @@ const TreeNode = ({ fileFolderData }) => {
             <div className="files" style={{
               display: 'flex',
               alignItems: 'center',
-              marginLeft: '5px'
+              marginLeft: '5px',
+              marginTop: "10px",
+
             }} 
             >
               <FileIcon extension={ computeExtension(fileFolderData) } />
             <p
               style={{
-                // paddingTop: "9px",
                 fontSize: "14px",
                 cursor: "pointer",
-                // marginLeft: "5px",
                 
               }}
+              onContextMenu={(e) => handleContextMenuForFile(e, fileFolderData?.path)}
               onDoubleClick={() => handleDoubleClick(fileFolderData)}
             >
               {fileFolderData.name}

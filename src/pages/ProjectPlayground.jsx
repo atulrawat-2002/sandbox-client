@@ -13,9 +13,7 @@ const ProjectPlayground = () => {
     const { setProjectId, projectId } = useTreeStructureStore();
     const { setEditorSocket } = useEditorSocketStore()
 
-    useEffect(() => {
-      console.log("useeffect in project playground");
-      
+    useEffect(() => {      
       const editorSocketConnection = io(`${import.meta.env.VITE_BACKEND_URL}/editor`, {
         query: {
           projectId: projectIdFromUrl
