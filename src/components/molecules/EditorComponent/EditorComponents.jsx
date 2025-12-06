@@ -2,11 +2,12 @@ import { Editor } from "@monaco-editor/react";
 import { dracula } from "../../../../dracula";
 import { useEditorSocketStore } from "../../../store/editorSocketStore";
 import { useActiveFileTabStore } from "../../../store/activeFileTabStore";
+import { extensionToFileType } from "../../../utils/extensionToFileType";
 
 const EditorComponents = () => {
   let timerId = null;
   const { editorSocket } = useEditorSocketStore();
-  const { activeFileTab, setActiveFileTab } = useActiveFileTabStore();
+  const { activeFileTab, setActiveFileTab } = useActiveFileTabStore();  
 
   const handleEditorTheme = (editor, monaco) => {
     monaco.editor.defineTheme("dracula", dracula);
@@ -35,7 +36,8 @@ const EditorComponents = () => {
       <Editor
         height="100vh"
         width="100%"
-        defaultLanguage={undefined}
+        // defaultLanguage={}
+        language={extensionToFileType(activeFileTab?.extension)}
         value={activeFileTab?.value ? activeFileTab.value : "// Code here"}
         options={{
           fontSize: 13,

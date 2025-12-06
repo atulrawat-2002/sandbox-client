@@ -3,11 +3,13 @@ import { SlArrowDown, SlArrowRight } from "react-icons/sl";
 import FileIcon from "../../atoms/FileIcon/FileIcon";
 import './TreeNode.css'
 import { useEditorSocketStore } from "../../../store/editorSocketStore";
+import { useFileContextMenuStore } from "../../../store/fileContextMenuStore";
 
 
 const TreeNode = ({ fileFolderData }) => {
   const [visiblity, setVisiblity] = useState({});
   const { editorSocket } = useEditorSocketStore()
+  const {setX, setY, setIsOpen, setFile} = useFileContextMenuStore();
 
   const handleDoubleClick = (fileFolderData) => {
     const data = editorSocket.emit("readFile", {pathToFileOrFolder: fileFolderData?.path})
@@ -15,7 +17,11 @@ const TreeNode = ({ fileFolderData }) => {
   }
 
   const handleContextMenuForFile = (e, path) => {
-    console.log(e, path)
+    e.preventDefault()
+    setX(e.clientX)
+    setY(e.clientY)
+    setIsOpen(true)
+    setFile(path)
   }
 
   const toggleVisiblity = (name) => {
