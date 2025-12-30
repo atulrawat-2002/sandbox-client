@@ -42,7 +42,7 @@ const TreeNode = ({ fileFolderData }) => {
       {fileFolderData && (
         <div
           style={{
-            paddingLeft: "5px",
+            paddingLeft: "15px",
             color: "white",
             
           }}
