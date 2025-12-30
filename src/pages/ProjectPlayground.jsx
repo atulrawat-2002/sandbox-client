@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useTreeStructureStore } from "../store/treeStructureStore.js";
 import { io } from "socket.io-client";
 import { useEditorSocketStore } from "../store/editorSocketStore.js";
+import { BrowserTerminal } from "../components/molecules/BrowserTerminal/BrowserTerminal.jsx";
 
 const ProjectPlayground = () => {
 
@@ -23,7 +24,7 @@ const ProjectPlayground = () => {
       setProjectId(projectIdFromUrl)
     }, [ projectIdFromUrl])
 
-  return (
+  return ( <>
     <div
       style={{
         display: 'flex'
@@ -45,10 +46,15 @@ const ProjectPlayground = () => {
       </div>
     }
     <EditorComponents />
-    {/* <EditorButton isActive={true} />
-    <EditorButton isActive={false} /> */}
     </div>
-  )
+
+    <EditorButton isActive={true} />
+    <EditorButton isActive={false} />
+    <div>
+      <BrowserTerminal />
+    </div>
+
+  </>)
 }
 
 export default ProjectPlayground
