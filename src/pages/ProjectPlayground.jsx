@@ -12,7 +12,12 @@ const ProjectPlayground = () => {
 
     const  { projectId: projectIdFromUrl }  = useParams();
     const { setProjectId, projectId } = useTreeStructureStore();
-    const { setEditorSocket } = useEditorSocketStore()
+    const { setEditorSocket, editorSocket } = useEditorSocketStore()
+
+    function fetchPort() {
+      console.log("Fetching port")
+      editorSocket.emit("getPort");
+    }
 
     useEffect(() => {      
       const editorSocketConnection = io(`${import.meta.env.VITE_BACKEND_URL}/editor`, {
@@ -30,7 +35,7 @@ const ProjectPlayground = () => {
         display: 'flex'
       }}
     >        
-    { projectId && 
+    { projectId &&  
       <div 
         style={{
           minWidth: '250px',
@@ -50,6 +55,11 @@ const ProjectPlayground = () => {
 
     <EditorButton isActive={true} />
     <EditorButton isActive={false} />
+    <button
+      onClick={fetchPort}
+    >
+      Get port
+    </button>
     <div>
       <BrowserTerminal />
     </div>
