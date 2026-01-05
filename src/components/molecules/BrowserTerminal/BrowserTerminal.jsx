@@ -16,7 +16,7 @@ export const BrowserTerminal = () => {
         const term = new Terminal({
             cursorBlink: true,
             theme: {
-                background: "#282a37",
+                background: "#1c2027",
                 foreground: "#f8f8f3",
                 cursorAccent: "#f8f8f3",
             },
@@ -31,16 +31,17 @@ export const BrowserTerminal = () => {
         fitAddon.fit()
 
         const ws = new WebSocket("ws://localhost:3000/terminal?projectId="+projectIdFromUrl);
-
+        
         ws.onopen = () => {
             const attachAddon = new AttachAddon(ws);
             term.loadAddon(attachAddon);
             socket.current = ws;
+
         }
 
         return () => {
             term.dispose()
-            socket.current.disconnect();
+            if (socket?.current) socket?.current.close();
         }
 
     }, [])

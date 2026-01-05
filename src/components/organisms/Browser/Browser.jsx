@@ -1,0 +1,70 @@
+import { Row, Input } from "antd";
+import { useEffect, useRef, useState } from "react";
+import { IoReloadOutline } from "react-icons/io5";
+import { usePortStore } from "../../../store/portStore";
+
+
+const Browser = () => {
+
+    const browserRef = useRef(null);
+    const { port } = usePortStore();
+    const [localPort, setLocalPort] = useState('0000');
+
+    useEffect(() => {
+        console.log("Browser component rendering ")
+    }, [port, localPort])
+
+    function handleRefresh() {
+        console.log("Refereshing the browser")
+        
+        if(browserRef.current) {
+            browserRef.current.src = `http://localhost:${port?.port}`
+            setLocalPort(port?.port)
+            console.log(port.port, localPort);
+            
+        }
+    }
+
+    if (!port) {
+        return <div>loading....</div>
+    }
+
+   return (
+    <Row
+        style={{
+            backgroundColor: '#22212b'
+        }}
+    >
+        <Input 
+            style={{
+                width: '100%',
+                height: '30px',
+                color: 'white',
+                fontFamily: 'Fira Code',
+                backgroundColor: '#282235'
+            }}
+            prefix={<IoReloadOutline onClick={handleRefresh} />}
+            defaultValue={`http://localhost:${localPort}`}
+            
+        >
+        
+        </Input>
+
+        <iframe 
+        ref={browserRef}
+        src={`http://localhost:${port}`} 
+        style={{
+            width: '100%',
+            height: '95vh',
+            border: 'none'
+        }}
+        // frameborder="0"
+        >
+        
+        </iframe>
+
+    </Row>
+   )
+}
+
+export default Browser
