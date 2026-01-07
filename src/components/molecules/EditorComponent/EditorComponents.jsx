@@ -34,9 +34,7 @@ const EditorComponents = () => {
   return (
     <>
       <Editor
-        height="75vh"
         width="100%"
-        // defaultLanguage={}
         language={extensionToFileType(activeFileTab?.extension)}
         value={activeFileTab?.value ? activeFileTab.value : "// Code here"}
         options={{

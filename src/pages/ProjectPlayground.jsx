@@ -2,27 +2,31 @@ import { useParams } from "react-router-dom";
 import EditorComponents from "../components/molecules/EditorComponent/EditorComponents";
 import EditorButton from "../components/atoms/EditorButton/EditorButton.jsx";
 import TreeStructure from "../components/organisms/TreeStructure/TreeStructure.jsx";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTreeStructureStore } from "../store/treeStructureStore.js";
 import { io } from "socket.io-client";
 import { useEditorSocketStore } from "../store/editorSocketStore.js";
 import { BrowserTerminal } from "../components/molecules/BrowserTerminal/BrowserTerminal.jsx";
 import Browser from "../components/organisms/Browser/Browser.jsx";
-import { usePortStore } from "../store/portStore.js";
 import { Allotment } from "allotment";
-import 'allotment/dist/style.css';
-import { Divider } from "antd";
-
-
-
+import "allotment/dist/style.css";
+import { GoSidebarCollapse, GoSidebarExpand } from "react-icons/go";
+import "./pages.css";
 
 const ProjectPlayground = () => {
   const { projectId: projectIdFromUrl } = useParams();
   const { setProjectId, projectId } = useTreeStructureStore();
-  const { setEditorSocket, editorSocket } = useEditorSocketStore();
-  const { port } = usePortStore();
+  const { setEditorSocket } = useEditorSocketStore();
+  const [showTreeStructure, setShowTreeStructure] = useState(true);
+  const [treeWidth, setTreeWidth] = useState('18%');
+
+  function toggleFileMenu() {
+    setShowTreeStructure((prev) => (prev = !prev));
+    setTreeWidth(prev => prev == '18%' ? '4%' : '18%');
+  }
 
   useEffect(() => {
+    console.log("useeffect iside the plaground");
     const editorSocketConnection = io(
       `${import.meta.env.VITE_BACKEND_URL}/editor`,
       {
@@ -40,33 +44,48 @@ const ProjectPlayground = () => {
       <div
         style={{
           display: "flex",
-          // flexDirection: 'column'
+          backgroundColor: 'white'
         }}
       >
+        
         {projectId && (
-          <div
+
+          <div className="treeStructure-container"
             style={{
-              minWidth: "250px",
-              maxWidth: "25%",
-              backgroundColor: "#333254",
-              paddingTop: "0.3vh",
-              height: "100vh",
-              paddingRight: "10px",
-              overflow: "auto",
+              width: treeWidth
             }}
           >
-            <TreeStructure />
+            {showTreeStructure && (
+              <>
+                <div className="filemenu-button">
+                  <GoSidebarExpand
+                    color="white"
+                    size="18px"
+                    onClick={toggleFileMenu}
+                  />
+                </div>
+                <TreeStructure />
+              </>
+            )}
+
+            {!showTreeStructure && (
+              <div className="filemenu-button">
+                <GoSidebarCollapse
+                  color="white"
+                  size="22px"
+                  onClick={toggleFileMenu}
+                />
+              </div>
+            )}
           </div>
         )}
-
         <div
           style={{
             width: "100vw",
             height: "100vh",
           }}
         >
-          <Allotment
-          >
+          <Allotment>
             <div
               style={{
                 display: "flex",
@@ -76,19 +95,17 @@ const ProjectPlayground = () => {
                 backgroundColor: "#282a36",
               }}
             >
-              <Allotment vertical={true} >
+              <Allotment vertical={true}>
                 <EditorComponents />
 
-                {/* <Divider style={{ backgroundColor: 'black', color: 'white' }} > Terminal </Divider> */}
                 <BrowserTerminal />
               </Allotment>
-
             </div>
-            {/* <EditorButton isActive={true} />
-            <EditorButton isActive={false} /> */}
-              {<Browser />}
+            {/* TODO: Editor Button component for active file */}
+            {<Browser />}
           </Allotment>
         </div>
+        
       </div>
     </>
   );

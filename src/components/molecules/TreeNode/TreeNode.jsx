@@ -44,13 +44,13 @@ const TreeNode = ({ fileFolderData }) => {
           style={{
             paddingLeft: "15px",
             color: "white",
-            
+            // backgroundColor: 'blue'
           }}
         >
           {fileFolderData?.children ? (
             <div className="folder" 
               style={{
-                
+              overflowX: 'scroll',
               }}
             >
               <button
@@ -85,7 +85,7 @@ const TreeNode = ({ fileFolderData }) => {
               alignItems: 'center',
               marginLeft: '5px',
               marginTop: "10px",
-
+               overflowX:'scroll'
             }} 
             >
               <FileIcon extension={ computeExtension(fileFolderData) } />

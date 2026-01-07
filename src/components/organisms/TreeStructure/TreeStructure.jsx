@@ -16,12 +16,15 @@ const TreeStructure = () => {
 
     useEffect(() => {
         
-        setTreeStructure()
+        setTreeStructure(true)
 
-    }, [setTreeStructure])
+    }, [])
 
   return (
-    <>  
+    <div
+      style={{
+      }}
+    >  
       {
         isFileContextOpen && fileContextX && filecontextY && (
           <FileContextMenu 
@@ -32,7 +35,7 @@ const TreeStructure = () => {
         )
       }
         <TreeNode fileFolderData={treeStructure} />
-    </>
+    </div>
   )
 }
 

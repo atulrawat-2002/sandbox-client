@@ -30,9 +30,11 @@ const Browser = () => {
     }
 
    return (
+    <>
     <Row
         style={{
-            backgroundColor: '#22212b'
+            backgroundColor: '#22212b',
+            padding: '10px'
         }}
     >
         <Input 
@@ -41,10 +43,13 @@ const Browser = () => {
                 height: '30px',
                 color: 'white',
                 fontFamily: 'Fira Code',
-                backgroundColor: '#282235'
+                backgroundColor: '#282235',
+                border: 'none'
             }}
             prefix={<IoReloadOutline onClick={handleRefresh} />}
-            defaultValue={`http://localhost:${localPort}`}
+            value={`http://localhost:${localPort}`}
+            autoFocus={false}
+            readOnly={true}
             
         >
         
@@ -64,6 +69,7 @@ const Browser = () => {
         </iframe>
 
     </Row>
+    </>
    )
 }
 
