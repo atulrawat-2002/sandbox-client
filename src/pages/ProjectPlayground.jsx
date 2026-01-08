@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import EditorComponents from "../components/molecules/EditorComponent/EditorComponents";
-import EditorButton from "../components/atoms/EditorButton/EditorButton.jsx";
 import TreeStructure from "../components/organisms/TreeStructure/TreeStructure.jsx";
 import { useEffect, useState } from "react";
 import { useTreeStructureStore } from "../store/treeStructureStore.js";
@@ -96,6 +95,7 @@ const ProjectPlayground = () => {
               }}
             >
               <Allotment vertical={true}>
+                
                 <EditorComponents />
 
                 <BrowserTerminal />

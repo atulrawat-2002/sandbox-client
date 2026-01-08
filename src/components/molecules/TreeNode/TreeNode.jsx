@@ -1,31 +1,45 @@
 import { useState } from "react";
 import { SlArrowDown, SlArrowRight } from "react-icons/sl";
 import FileIcon from "../../atoms/FileIcon/FileIcon";
-import './TreeNode.css'
+import "./TreeNode.css";
 import { useEditorSocketStore } from "../../../store/editorSocketStore";
 import { useFileContextMenuStore } from "../../../store/fileContextMenuStore";
+import { handleFileTabs } from "../../../utils/extensionToFileType";
+
+export const handleRenameFile = (path, editorSocket) => {
+  console.log("renaming the file", path, editorSocket);
+  editorSocket.emit("renameFile", {
+    oldPath: path,
+    newPath: path,
+  });
+};
 
 
 const TreeNode = ({ fileFolderData }) => {
+  
   const [visiblity, setVisiblity] = useState({});
-  const { editorSocket } = useEditorSocketStore()
-  const {setX, setY, setIsOpen, setFile} = useFileContextMenuStore();
+  const { editorSocket } = useEditorSocketStore();
+  const { setX, setY, setIsOpen, setFile } = useFileContextMenuStore();
 
   const handleDoubleClick = (fileFolderData) => {
-    const data = editorSocket.emit("readFile", {pathToFileOrFolder: fileFolderData?.path})
-    console.log(data)
-  }
+    handleFileTabs({
+      path: fileFolderData?.path,
+      value: true,
+    })
+    const data = editorSocket.emit("readFile", {
+      pathToFileOrFolder: fileFolderData?.path,
+    });
+  };
 
   const handleContextMenuForFile = (e, path) => {
-    e.preventDefault()
-    setX(e.clientX)
-    setY(e.clientY)
-    setIsOpen(true)
-    setFile(path)
-  }
+    e.preventDefault();
+    setX(e.clientX);
+    setY(e.clientY);
+    setIsOpen(true);
+    setFile(path);
+  };
 
   const toggleVisiblity = (name) => {
-
     setVisiblity({
       ...visiblity,
       [name]: !visiblity[name],
@@ -33,8 +47,8 @@ const TreeNode = ({ fileFolderData }) => {
   };
 
   function computeExtension(fileFolderData) {
-    const names = fileFolderData?.name.split('.')
-    return names[names.length - 1]
+    const names = fileFolderData?.name.split(".");
+    return names[names.length - 1];
   }
 
   return (
@@ -48,9 +62,10 @@ const TreeNode = ({ fileFolderData }) => {
           }}
         >
           {fileFolderData?.children ? (
-            <div className="folder" 
+            <div
+              className="folder"
               style={{
-              overflowX: 'scroll',
+                overflowX: "scroll",
               }}
             >
               <button
@@ -58,55 +73,62 @@ const TreeNode = ({ fileFolderData }) => {
                   toggleVisiblity(fileFolderData?.name);
                 }}
                 style={{
-                  border: 'none',
-                  outline: 'none',
-                  color: 'white',
-                  background: 'transparent',
-                  paddingTop: '10px',
-                  fontSize: '14px',
-                  cursor: 'pointer',
+                  border: "none",
+                  outline: "none",
+                  color: "white",
+                  background: "transparent",
+                  paddingTop: "10px",
+                  fontSize: "14px",
+                  cursor: "pointer",
                 }}
               >
                 {visiblity[fileFolderData.name] ? (
-                  <SlArrowDown style={{
-                    marginRight: '3px'
-                  }} />
+                  <SlArrowDown
+                    style={{
+                      marginRight: "3px",
+                    }}
+                  />
                 ) : (
-                  <SlArrowRight style={{
-                    marginRight: '3px'
-                  }} />
+                  <SlArrowRight
+                    style={{
+                      marginRight: "3px",
+                    }}
+                  />
                 )}
                 {fileFolderData.name}
               </button>
             </div>
           ) : (
-            <div className="files" style={{
-              display: 'flex',
-              alignItems: 'center',
-              marginLeft: '5px',
-              marginTop: "10px",
-               overflowX:'scroll'
-            }} 
-            >
-              <FileIcon extension={ computeExtension(fileFolderData) } />
-            <p
+            <div
+              className="files"
               style={{
-                fontSize: "14px",
-                cursor: "pointer",
-                
+                display: "flex",
+                alignItems: "center",
+                marginLeft: "5px",
+                marginTop: "10px",
+                overflowX: "scroll",
               }}
-              onContextMenu={(e) => handleContextMenuForFile(e, fileFolderData?.path)}
-              onDoubleClick={() => handleDoubleClick(fileFolderData)}
             >
-              {fileFolderData.name}
-            </p>
+              <FileIcon extension={computeExtension(fileFolderData)} />
+              <p
+                style={{
+                  fontSize: "14px",
+                  cursor: "pointer",
+                }}
+                onContextMenu={(e) =>
+                  handleContextMenuForFile(e, fileFolderData?.path)
+                }
+                onDoubleClick={() => handleDoubleClick(fileFolderData)}
+              >
+                {fileFolderData.name}
+              </p>
             </div>
           )}
 
           {fileFolderData?.children &&
             visiblity[fileFolderData.name] &&
             fileFolderData.children.map((child) => {
-              return <TreeNode key={ child.name } fileFolderData={child} />;
+              return <TreeNode key={child.name} fileFolderData={child} />;
             })}
         </div>
       )}

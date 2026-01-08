@@ -15,7 +15,6 @@ export const useEditorSocketStore = create(
         const portSetter = usePortStore.getState().setPort; 
 
       incomingSocket?.on("readFileSuccess", (data) => {
-        console.log(data);
         const fileExtension = data.path.split(".").pop();
         activeFileTabSetter(data.value, data.path, fileExtension);
       });
@@ -32,7 +31,6 @@ export const useEditorSocketStore = create(
       });
 
       incomingSocket?.on("getPortSuccess", (port) => {
-            console.log("port data", port)
             portSetter(port);
       });
 

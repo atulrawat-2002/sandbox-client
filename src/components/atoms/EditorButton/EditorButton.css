@@ -1,4 +1,6 @@
 .editor-button {
+    display: flex;
+    flex-direction: row;
     outline: none;
     background-color: #303242;
     font-size: 14px;

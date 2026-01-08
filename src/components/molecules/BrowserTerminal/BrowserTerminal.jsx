@@ -12,9 +12,7 @@ export const BrowserTerminal = () => {
     const socket = useRef(null)
     const  { projectId: projectIdFromUrl }  = useParams();
 
-    useEffect(() => {
-        console.log("UseEffect inside Browser Terminal");
-        
+    useEffect(() => {        
 
         const term = new Terminal({
             

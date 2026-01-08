@@ -17,3 +17,15 @@ export const extensionToFileType = (extension) => {
 
     return extensionToFileMapper[extension]
 }
+
+export const tabs = new Map()
+
+export const handleFileTabs = (data) => {
+    if(tabs.get(data.path)) {
+        tabs[data.path] = data.value
+    } else {
+        tabs.set(data.path, data.value)
+    }
+    console.log(tabs, data);
+    
+}

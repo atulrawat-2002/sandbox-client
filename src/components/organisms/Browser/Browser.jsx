@@ -11,11 +11,9 @@ const Browser = () => {
     const [localPort, setLocalPort] = useState('0000');
 
     useEffect(() => {
-        console.log("Browser component rendering ")
     }, [port, localPort])
 
     function handleRefresh() {
-        console.log("Refereshing the browser")
         
         if(browserRef.current) {
             browserRef.current.src = `http://localhost:${port?.port}`

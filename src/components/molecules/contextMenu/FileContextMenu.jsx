@@ -1,5 +1,6 @@
 import { useEditorSocketStore } from "../../../store/editorSocketStore"
 import { useFileContextMenuStore } from "../../../store/fileContextMenuStore"
+import { handleRenameFile } from "../TreeNode/TreeNode"
 import './FileContextMenu.css'
 
 
@@ -9,8 +10,6 @@ const FileContextMenu = ({x, y, path}) => {
     const { editorSocket } = useEditorSocketStore()
 
     const handleDeleteFile = () => {
-
-        // console.log("Deleting this file ",path)
 
         editorSocket.emit("deleteFile", {
             pathToFileOrFolder: path
@@ -23,7 +22,7 @@ const FileContextMenu = ({x, y, path}) => {
         style={{
             top: y,
             left: x,
-
+            zIndex: 1,
         }}
         onMouseLeave={() => setIsOpen(false)}
     >
@@ -33,7 +32,10 @@ const FileContextMenu = ({x, y, path}) => {
         >
             Delete File
         </button>
-        <button  className="fileContectButton" >  
+        <button  
+        className="fileContectButton" 
+        onClick={() => handleRenameFile(path, editorSocket)}
+        >  
             Rename File
         </button>
         
