@@ -4,6 +4,7 @@ import { useEditorSocketStore } from "../../../store/editorSocketStore";
 import { useActiveFileTabStore } from "../../../store/activeFileTabStore";
 import { extensionToFileType } from "../../../utils/extensionToFileType";
 import EditorButton from "../../atoms/EditorButton/EditorButton";
+import { tabs } from "../../../utils/extensionToFileType";
 
 const EditorComponents = () => {
   let timerId = null;
@@ -34,9 +35,18 @@ const EditorComponents = () => {
 
   }
 
+  console.log(tabs);
+  
+
   return (
     <>
-      <EditorButton isActive={true} />
+      {[...tabs].map(([key, data]) => (
+  <EditorButton
+    key={key}
+    isActive={data.value}
+  />
+))}
+      
       <Editor
         width="100%"
         language={activeFileTab?.extension ? extensionToFileType(activeFileTab?.extension) : "js"}

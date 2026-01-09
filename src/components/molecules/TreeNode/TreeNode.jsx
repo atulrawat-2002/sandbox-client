@@ -58,7 +58,6 @@ const TreeNode = ({ fileFolderData }) => {
           style={{
             paddingLeft: "15px",
             color: "white",
-            // backgroundColor: 'blue'
           }}
         >
           {fileFolderData?.children ? (

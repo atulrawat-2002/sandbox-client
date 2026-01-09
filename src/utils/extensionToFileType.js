@@ -26,6 +26,6 @@ export const handleFileTabs = (data) => {
     } else {
         tabs.set(data.path, data.value)
     }
-    console.log(tabs, data);
+    // console.log(tabs, data);
     
 }

@@ -7,6 +7,9 @@ import { handleFileTabs } from '../../../utils/extensionToFileType.js';
 
 const EditorButton = ({isActive}) => {
 
+    console.log("Editor button rendered", isActive);
+    
+
     const { activeFileTab, setActiveFileTab } = useActiveFileTabStore()
     const { editorSocket } = useEditorSocketStore()
     
