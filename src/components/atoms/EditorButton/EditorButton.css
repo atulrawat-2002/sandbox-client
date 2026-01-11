@@ -7,9 +7,13 @@
     height: 30px;
     border-left: none;
     border-bottom: none;
-    border-top: 1px solid rgb(253, 199, 208);
+    border-top: 1px solid rgb(8, 18, 167);
     color: white;
     min-width: 100px;
     padding: 3px 7px 3px 7px;
 }
 
+.editor-buttons-container {
+    display: flex;
+    overflow-y: auto;
+}

@@ -1,40 +1,101 @@
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { create } from "zustand";
+import { devtools } from "zustand/middleware";
 
-class tab {
-    constructor(data, key) {
-        this.data = data;
-        this.key = key
-        this.prev = null
-        this.next = null
+class Tab {
+  constructor(data, key) {
+    this.data = data;
+    this.key = key;
+    this.prev = null;
+    this.next = null;
+  }
+}
+
+class TabsData {
+  constructor() {
+    this.map = new Map();
+
+    this.head = new Tab(null, null);
+    this.tail = new Tab(null, null);
+
+    this.head.next = this.tail;
+    this.tail.prev = this.head;
+  }
+
+    setTab(data) {
+      
+      const {value, path:key} = data;
+
+      if(this.map.has(key)) {
+        let node = this.map.get(key);
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+
+        this._reorder(key);
+        this._moveToHead(node);
+        
+      } else {
+        
+        let newTab = new Tab(value, key)
+        this.map.set(key, newTab)
+        
+        this._moveToHead(newTab);
+      }
+
+    }
+
+    _moveToHead(node) {
+      node.next = this.head.next;
+      node.prev = this.head;
+
+      this.head.next = node;
+      node.next.prev = node;
+    }
+
+    _deleteNode(key) {
+      let node = this.map.get(key);
+
+      this._reorder(key);
+      node.next = null;
+      node.prev = null;
+      this.map.delete(key);
+      node = null
+
+    }
+
+    _reorder(key) {
+        
+        let node = this.map.get(key);
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
     }
 }
 
-class tabsData {
-    constructor () {
-        this.map = new Map();
-        this.head = new Node(null, null);
-        this.tail = new Node(null, null);
-        this.head.next = this.tail;
-        this.prev = null;
 
-        this.tail.prev = this.head;
-        this.tail.next = null
-    }
-}
+export const useActiveFileTabStore = create(
+  devtools(
+    (set) => ({
+      allFileTabs: new TabsData(),
 
-export const useActiveFileTabStore = create(devtools((set) => {
-    return {
-        activeFileTab: null,
-        setActiveFileTab: (value, path, extension) => {
-            set({
-                activeFileTab: {
-                    value: value,
-                    path: path,
-                    extension: extension
-                }
-            }) 
-        },
+      setTab: (data) =>
+        set(
+          (state) => {
+            state.allFileTabs.setTab(data);
+            return { allFileTabs: state.allFileTabs };
+          },
+          false,
+          "tabs/setTab"
+        ),
 
-    }
-}))
+        deleteTab: (key) => {
+          set((state) => {
+            state.allFileTabs._deleteNode(key);
+            return { allFileTabs: state.allFileTabs }
+          })
+        }
+    }),
+
+    { name: "ActiveFileTabStore" }
+  )
+);
+
+

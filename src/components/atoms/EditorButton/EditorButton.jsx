@@ -3,61 +3,43 @@ import { useActiveFileTabStore } from '../../../store/activeFileTabStore.js'
 import FileIcon from '../FileIcon/FileIcon.jsx';
 import { RxCross2 } from 'react-icons/rx';
 import { useEditorSocketStore } from '../../../store/editorSocketStore.js';
-import { handleFileTabs } from '../../../utils/extensionToFileType.js';
+import { useEffect } from 'react';
 
-const EditorButton = ({isActive}) => {
+const EditorButton = ({data}) => {    
 
-    console.log("Editor button rendered", isActive);
-    
-
-    const { activeFileTab, setActiveFileTab } = useActiveFileTabStore()
     const { editorSocket } = useEditorSocketStore()
-    
-    let name = activeFileTab?.path?.split('\\') ;    
+    const { allFileTabs, deleteTab } = useActiveFileTabStore();
 
-    function handleClick () {
-
-        handleFileTabs({
-            path: activeFileTab?.path,
-            value: true
-        })
-        console.log("clikc on file tab");
+    useEffect(() => {
+        // console.log("Useeffect Inside editor button", data?.key?.split('\\').pop());
         
+    }, [])
 
-    editorSocket?.emit("readFile", {
-      pathToFileOrFolder: activeFileTab?.path
+    function handleClick() {
+        const response = editorSocket.emit("readFile", {
+      pathToFileOrFolder: data?.key,
     });
+    }
 
-    editorSocket?.on("readFileSuccess", (data) => {
-        const fileExtension = data.path.split(".").pop();
+    function removeFileTab() {
+        console.log("deleting the file tab", data?.key);
         
-    });
-    
-  };
-
-    function removeFileTab () {
-        handleFileTabs({
-            path: activeFileTab?.path,
-            value: false
-        })
-        console.log("removing the file tab");
-        
-        setActiveFileTab(null, null, null)
+        deleteTab(data?.key);
     }
 
   return (
     <>
-    {name &&   <div>
+    {data &&   <div>
         <button className='editor-button' 
     style={{
-        color: isActive ? 'white' : '#959eba' ,
-        backgroundColor: isActive ? '#303242' : '#4a4859' ,
-        borderTop: isActive ? '2px solid rgba(255, 192, 202, 1) ' : 'none' 
+        color: data?.prev?.key === null ? 'white' : '#959eba' ,
+        backgroundColor: data?.prev?.key === null ? 'rgb(35 38 45)' : '#4a4859' ,
+        borderTop: data?.prev?.key === null ? '2px solid rgb(10, 43, 192) ' : '2px solid rgb(49, 48, 48) ' 
     }}
     >
-        <div><FileIcon extension={activeFileTab?.extension} /></div>
-        <div onClick={() => handleClick()} >{`${name[name?.length - 1]}`}</div>
-        <div onClick={() => removeFileTab()} ><RxCross2  /></div>
+        <div onClick={() => handleClick()} ><FileIcon extension={data?.key?.split('.').pop()} /></div>
+        <div onClick={() => handleClick()} >{`${data?.key?.split('\\').pop()}`}</div>
+        <div  ><RxCross2 onClick={() => removeFileTab()} /></div>
          
         </button>
     </div> }

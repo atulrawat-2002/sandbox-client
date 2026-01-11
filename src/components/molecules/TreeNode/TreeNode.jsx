@@ -4,7 +4,6 @@ import FileIcon from "../../atoms/FileIcon/FileIcon";
 import "./TreeNode.css";
 import { useEditorSocketStore } from "../../../store/editorSocketStore";
 import { useFileContextMenuStore } from "../../../store/fileContextMenuStore";
-import { handleFileTabs } from "../../../utils/extensionToFileType";
 
 export const handleRenameFile = (path, editorSocket) => {
   console.log("renaming the file", path, editorSocket);
@@ -22,10 +21,7 @@ const TreeNode = ({ fileFolderData }) => {
   const { setX, setY, setIsOpen, setFile } = useFileContextMenuStore();
 
   const handleDoubleClick = (fileFolderData) => {
-    handleFileTabs({
-      path: fileFolderData?.path,
-      value: true,
-    })
+    
     const data = editorSocket.emit("readFile", {
       pathToFileOrFolder: fileFolderData?.path,
     });
@@ -38,6 +34,11 @@ const TreeNode = ({ fileFolderData }) => {
     setIsOpen(true);
     setFile(path);
   };
+
+  const handleContextMenuForFolder = (e) => {
+    e.preventDefault()
+    
+  }
 
   const toggleVisiblity = (name) => {
     setVisiblity({
@@ -66,6 +67,9 @@ const TreeNode = ({ fileFolderData }) => {
               style={{
                 overflowX: "scroll",
               }}
+              onContextMenu={(e) => {
+                      handleContextMenuForFolder(e)
+                    }}
             >
               <button
                 onClick={() => {
@@ -86,6 +90,8 @@ const TreeNode = ({ fileFolderData }) => {
                     style={{
                       marginRight: "3px",
                     }}
+
+                    
                   />
                 ) : (
                   <SlArrowRight

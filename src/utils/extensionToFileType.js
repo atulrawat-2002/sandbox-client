@@ -13,6 +13,7 @@ const extensionToFileMapper = {
 }
 
 export const extensionToFileType = (extension) => {
+    
     if(!extension) return undefined
 
     return extensionToFileMapper[extension]

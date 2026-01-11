@@ -18,6 +18,7 @@ const ProjectPlayground = () => {
   const { setEditorSocket } = useEditorSocketStore();
   const [showTreeStructure, setShowTreeStructure] = useState(true);
   const [treeWidth, setTreeWidth] = useState('18%');
+  
 
   function toggleFileMenu() {
     setShowTreeStructure((prev) => (prev = !prev));

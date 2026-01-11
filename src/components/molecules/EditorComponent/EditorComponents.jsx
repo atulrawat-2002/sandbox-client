@@ -4,14 +4,14 @@ import { useEditorSocketStore } from "../../../store/editorSocketStore";
 import { useActiveFileTabStore } from "../../../store/activeFileTabStore";
 import { extensionToFileType } from "../../../utils/extensionToFileType";
 import EditorButton from "../../atoms/EditorButton/EditorButton";
-import { tabs } from "../../../utils/extensionToFileType";
+import { useEffect } from "react";
 
 const EditorComponents = () => {
   let timerId = null;
   const { editorSocket } = useEditorSocketStore();
-  const { activeFileTab, setActiveFileTab } = useActiveFileTabStore();  
-
-  const fileTabs = {};
+  const { allFileTabs } = useActiveFileTabStore();
+  // console.log(allFileTabs?.map);
+  
 
   const handleEditorTheme = (editor, monaco) => {
     monaco.editor.defineTheme("dracula", dracula);
@@ -19,38 +19,53 @@ const EditorComponents = () => {
   };
 
   function handleChange(value, e) {
-
-    if(timerId != null ) {
+    if (timerId != null) {
       clearTimeout(timerId);
     }
 
     timerId = setTimeout(() => {
-      console.log("sending write file event")
+      console.log("sending write file event");
       const editorcontent = value;
       editorSocket.emit("writeFile", {
         data: editorcontent,
-        pathToFileOrFolder: activeFileTab?.path,
+        pathToFileOrFolder: allFileTabs?.head?.next?.key,
       });
     }, 2000);
-
   }
 
-  console.log(tabs);
-  
+  useEffect(() => {
+    
+    console.log("useeffect in editor component");
+
+      }, [allFileTabs?.map]);
 
   return (
     <>
-      {[...tabs].map(([key, data]) => (
-  <EditorButton
-    key={key}
-    isActive={data.value}
-  />
-))}
       
+      {
+        <div className="editor-buttons-container" >
+          {
+            Array.from(allFileTabs?.map?.values()).map((data) => {
+          return <EditorButton key={Math.random()} data={data} />
+        })
+          }
+        </div>
+      }
+
       <Editor
         width="100%"
-        language={activeFileTab?.extension ? extensionToFileType(activeFileTab?.extension) : "js"}
-        value={activeFileTab?.value ? activeFileTab.value : "// Code here"}
+        language={
+          allFileTabs?.head?.next?.key
+            ? extensionToFileType(
+                allFileTabs?.head?.next?.key?.split(".").pop()
+              )
+            : "js"
+        }
+        value={
+          allFileTabs?.head?.next?.data
+            ? allFileTabs?.head?.next?.data
+            : "// Code here"
+        }
         options={{
           fontSize: 13,
           fontFamily: "monospace",
@@ -58,6 +73,7 @@ const EditorComponents = () => {
         onMount={handleEditorTheme}
         onChange={handleChange}
       />
+      
     </>
   );
 };

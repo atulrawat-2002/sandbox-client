@@ -9,14 +9,13 @@ export const useEditorSocketStore = create(
     editorSocket: null,
     setEditorSocket: (incomingSocket) => {
       const activeFileTabSetter =
-        useActiveFileTabStore.getState().setActiveFileTab;
+        useActiveFileTabStore.getState().setTab;
       const treeStructureSetter =
         useTreeStructureStore.getState().setTreeStructure;
         const portSetter = usePortStore.getState().setPort; 
 
       incomingSocket?.on("readFileSuccess", (data) => {
-        const fileExtension = data.path.split(".").pop();
-        activeFileTabSetter(data.value, data.path, fileExtension);
+        activeFileTabSetter(data);
       });
 
       incomingSocket?.on("writeFileSuccess", (data) => {
