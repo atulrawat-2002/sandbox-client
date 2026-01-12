@@ -5,7 +5,9 @@ import './FileContextMenu.css'
 import RenamingModal from "./RenamingModal"
 
 
-const FileContextMenu = ({x, y, path}) => {
+
+const FolderContextMenu = ({x, y, path}) => {
+  
 
     const { setIsOpen } = useFileContextMenuStore();
     const { editorSocket } = useEditorSocketStore();
@@ -18,6 +20,15 @@ const FileContextMenu = ({x, y, path}) => {
         })
     }
 
+    function handleCreateFile (path, editorSocket) {
+        console.log("Creating file")
+    }
+    
+    function handleCreateFolder(path, editorSocket) {
+        console.log("Creating file")
+
+    }
+
   return (
     <>
     { renaming ? <RenamingModal x={x} y={y} path={path} /> :
@@ -25,10 +36,11 @@ const FileContextMenu = ({x, y, path}) => {
         className="fileContectOptionsWrapper"
         style={{
             top: y,
-            left: x,
+            left: '160px',
             zIndex: 1,
             padding: '1px 0px',
-            border: '1px solid #ababab'
+            border: '1px solid #ababab',
+            borderRadius: '1px',
         }}
         onMouseLeave={() => setIsOpen(false)}
     >
@@ -36,13 +48,25 @@ const FileContextMenu = ({x, y, path}) => {
         <button className="fileContectButton"
             onClick={handleDeleteFile}
         >
-            Delete File
+            Delete Folder
         </button>
         <button  
         className="fileContectButton" 
         onClick={() => handleRenameFile(path, editorSocket)}
         >  
-            Rename File
+            Rename Folder
+        </button>
+        <button  
+        className="fileContectButton" 
+        onClick={() => handleCreateFolder(path, editorSocket)}
+        >  
+            Create Folder
+        </button>
+        <button  
+        className="fileContectButton" 
+        onClick={() => handleCreateFile(path, editorSocket)}
+        >  
+            Create File
         </button>
         <button  
         className="fileContectButton" 
@@ -56,6 +80,7 @@ const FileContextMenu = ({x, y, path}) => {
     }
     </>
   )
+
 }
 
-export default FileContextMenu
+export default FolderContextMenu

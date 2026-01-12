@@ -13,6 +13,7 @@ export const createProjectApi = async () => {
 
 export const getProjectTree = async ( projectId ) => {
     try {
+        console.log("Fetching the folder tree data ")
         const response = await axios.get(`/api/v1/project/${projectId}/tree`)
         return response?.data?.data
     } catch (error) {

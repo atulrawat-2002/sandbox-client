@@ -6,7 +6,9 @@ export const useFileContextMenuStore = create(
     x: null,
     y: null,
     isOpen: false,
-    file: null,
+    file: null, 
+    renaming: false,
+    folder: null,
     setX: (incomingX) => {
       set({
         x: incomingX,
@@ -23,9 +25,19 @@ export const useFileContextMenuStore = create(
       });
     },
     setFile: (incomingFile) => {
-        set({
-            file: incomingFile,
-        })
-    }
+      set({
+        file: incomingFile,
+      });
+    },
+    setFolder: (incomingFolder) => {
+      set({
+        folder: incomingFolder,
+      })
+    },
+    setRenaming: () => {
+      set((state) => ({
+        renaming: !state.renaming,
+      }));
+    },
   }))
 );

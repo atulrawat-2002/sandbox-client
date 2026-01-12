@@ -9,7 +9,12 @@ const extensionToFileMapper = {
     'json': 'json',
     'md': 'markdown',
     'yaml': 'yaml',
-    'svg': 'svg'
+    'svg': 'svg',
+    'local' : 'env',
+    'env': 'env',
+    'gitignore': 'gitignore',
+    'doker' : 'docker'
+
 }
 
 export const extensionToFileType = (extension) => {
@@ -17,16 +22,4 @@ export const extensionToFileType = (extension) => {
     if(!extension) return undefined
 
     return extensionToFileMapper[extension]
-}
-
-export const tabs = new Map()
-
-export const handleFileTabs = (data) => {
-    if(tabs.get(data.path)) {
-        tabs[data.path] = data.value
-    } else {
-        tabs.set(data.path, data.value)
-    }
-    // console.log(tabs, data);
-    
 }

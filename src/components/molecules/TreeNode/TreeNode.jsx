@@ -6,11 +6,9 @@ import { useEditorSocketStore } from "../../../store/editorSocketStore";
 import { useFileContextMenuStore } from "../../../store/fileContextMenuStore";
 
 export const handleRenameFile = (path, editorSocket) => {
-  console.log("renaming the file", path, editorSocket);
-  editorSocket.emit("renameFile", {
-    oldPath: path,
-    newPath: path,
-  });
+  console.log("renaming the file", path);
+  const renamingSetter = useFileContextMenuStore.getState().setRenaming;
+  renamingSetter();
 };
 
 
@@ -18,7 +16,8 @@ const TreeNode = ({ fileFolderData }) => {
   
   const [visiblity, setVisiblity] = useState({});
   const { editorSocket } = useEditorSocketStore();
-  const { setX, setY, setIsOpen, setFile } = useFileContextMenuStore();
+  const { setX, setY, setIsOpen, setFile, renaming, setRenaming, setFolder } = useFileContextMenuStore();
+  
 
   const handleDoubleClick = (fileFolderData) => {
     
@@ -28,16 +27,23 @@ const TreeNode = ({ fileFolderData }) => {
   };
 
   const handleContextMenuForFile = (e, path) => {
+    console.log("Context menu for file ", e.clientX, e.clientY)
     e.preventDefault();
     setX(e.clientX);
     setY(e.clientY);
     setIsOpen(true);
     setFile(path);
+     setFolder(null);
   };
 
-  const handleContextMenuForFolder = (e) => {
+  const handleContextMenuForFolder = (e, path) => {
+    console.log("Context menu for folder ", e.clientX, e.clientY)
     e.preventDefault()
-    
+    setX(e.clientX);
+    setY(e.clientY);
+    setIsOpen(true);
+    setFolder(path);
+    setFile(null);
   }
 
   const toggleVisiblity = (name) => {
@@ -68,10 +74,10 @@ const TreeNode = ({ fileFolderData }) => {
                 overflowX: "scroll",
               }}
               onContextMenu={(e) => {
-                      handleContextMenuForFolder(e)
+                      handleContextMenuForFolder(e, fileFolderData?.path)
                     }}
             >
-              <button
+               <button
                 onClick={() => {
                   toggleVisiblity(fileFolderData?.name);
                 }}
@@ -90,8 +96,6 @@ const TreeNode = ({ fileFolderData }) => {
                     style={{
                       marginRight: "3px",
                     }}
-
-                    
                   />
                 ) : (
                   <SlArrowRight
@@ -100,8 +104,9 @@ const TreeNode = ({ fileFolderData }) => {
                     }}
                   />
                 )}
+                
                 {fileFolderData.name}
-              </button>
+              </button> 
             </div>
           ) : (
             <div
@@ -133,7 +138,8 @@ const TreeNode = ({ fileFolderData }) => {
           {fileFolderData?.children &&
             visiblity[fileFolderData.name] &&
             fileFolderData.children.map((child) => {
-              return <TreeNode key={child.name} fileFolderData={child} />;
+              
+              return <TreeNode id={child.name} key={child.name} fileFolderData={child} />;
             })}
         </div>
       )}
