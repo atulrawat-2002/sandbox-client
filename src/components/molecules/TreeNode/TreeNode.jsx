@@ -5,12 +5,6 @@ import "./TreeNode.css";
 import { useEditorSocketStore } from "../../../store/editorSocketStore";
 import { useFileContextMenuStore } from "../../../store/fileContextMenuStore";
 
-export const handleRenameFile = (path, editorSocket) => {
-  console.log("renaming the file", path);
-  const renamingSetter = useFileContextMenuStore.getState().setRenaming;
-  renamingSetter();
-};
-
 
 const TreeNode = ({ fileFolderData }) => {
   
@@ -27,17 +21,15 @@ const TreeNode = ({ fileFolderData }) => {
   };
 
   const handleContextMenuForFile = (e, path) => {
-    console.log("Context menu for file ", e.clientX, e.clientY)
     e.preventDefault();
     setX(e.clientX);
     setY(e.clientY);
     setIsOpen(true);
     setFile(path);
-     setFolder(null);
+    setFolder(null);
   };
 
   const handleContextMenuForFolder = (e, path) => {
-    console.log("Context menu for folder ", e.clientX, e.clientY)
     e.preventDefault()
     setX(e.clientX);
     setY(e.clientY);

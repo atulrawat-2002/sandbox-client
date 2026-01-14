@@ -6,17 +6,51 @@ import "./RenamingModal.css";
 import { useEditorSocketStore } from "../../../store/editorSocketStore";
 import { useTreeStructureStore } from "../../../store/treeStructureStore";
 
-const RenamingModal = ({ x, y, path }) => {
-  const renamingSetter = useFileContextMenuStore.getState().setRenaming;
+const RenamingModal = ({ x, y, path, creating }) => {
+  
   const {editorSocket} = useEditorSocketStore();
-  const { setIsOpen } = useFileContextMenuStore();
+  const { setIsOpen, setRenaming, createFileOrFolder, setCreateFileOrFolder, toBeCreate } = useFileContextMenuStore();
   const {setTreeStructure} = useTreeStructureStore();
   const [name, setName] = useState(path?.split("\\")?.pop());
+  const [fileOrFolderName, setFileOrFolderName] = useState("");
   let count = 0;
 
+
+
   function nameChanging(e) {
-    // console.log(e.target.value);
     setName((prev) => (prev = e.target.value));   
+  }
+
+  function fileOrFolderNameChanging(e) {
+    setFileOrFolderName((prev) => prev = e.target.value)
+  }
+
+  function handleCreateFileOrFolder() {
+    console.log(fileOrFolderName)
+    if(fileOrFolderName.trim() === "") {
+      return;
+    }
+
+    if(toBeCreate == 'file') {
+
+      editorSocket.emit("createFile", {
+        pathToFileOrFolder: path,
+        fileName: fileOrFolderName,
+      })
+
+    } else if (toBeCreate === 'folder') {
+      
+      editorSocket.emit("createFolder", {
+        pathToFileOrFolder: path,
+        folderName: fileOrFolderName,
+      })
+
+    }
+
+    setRenaming(false);
+    setCreateFileOrFolder(false);
+    setIsOpen(false);
+
   }
 
   function doneRenaming() {
@@ -25,8 +59,7 @@ const RenamingModal = ({ x, y, path }) => {
       newPath.pop();
       newPath.push(name)
       newPath = newPath.join("\\");
-      console.log(oldPath, newPath);
-      
+      console.log(oldPath, newPath); 
     
     editorSocket.emit("renameFile", {
       oldPath,
@@ -37,18 +70,78 @@ const RenamingModal = ({ x, y, path }) => {
         console.log("File renamed success",count++, data);
         setTreeStructure();
     })
-    renamingSetter();
+    setRenaming(false);
     setIsOpen(false);
   }
 
   function cancelRenaming() {
-    renamingSetter();
+    setRenaming(false);
+    setCreateFileOrFolder(false);
     setIsOpen(false);
   }
 
   useEffect(() => {
-    console.log("UseEffect in Rnaming tree modal")
+    console.log("UseEffect in Renaming modal")
   })
+  
+  if (creating) {
+    {console.log("renaming modal when creating is true")}
+    return <>
+      <div
+      className="fileContectOptionsWrapper"
+      style={{
+        position: "fixed",
+        top: y,
+        left: '150px',
+        zIndex: 2,
+      }}
+    >
+      <input
+      
+        style={{
+          width: "150px",
+          padding: "1px 3px",
+        }}
+        placeholder="Enter name"
+        value={fileOrFolderName}
+        autoFocus={true}
+        type="text"
+        onChange={(e) => fileOrFolderNameChanging(e)}
+      />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-around",
+          alignItems: "center",
+        }}
+      >
+        <button
+          title="Create File"
+          style={{
+            color: "cyan",
+            marginRight: "1px",
+          }}
+          className="action-button"
+
+          onClick={handleCreateFileOrFolder}
+        >
+          <FaCheck />
+        </button>
+        <button
+          title="cancel"
+          style={{
+            color: "red",
+            marginLeft: "1px",
+          }}
+          className="action-button"
+          onClick={() => cancelRenaming()}
+        >
+          <ImCancelCircle />
+        </button>
+      </div>
+    </div>
+    </>
+  }
 
   return (
     <div

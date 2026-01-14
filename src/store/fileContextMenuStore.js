@@ -9,6 +9,8 @@ export const useFileContextMenuStore = create(
     file: null, 
     renaming: false,
     folder: null,
+    createFileOrFolder: false,
+    toBeCreate: null,
     setX: (incomingX) => {
       set({
         x: incomingX,
@@ -34,10 +36,20 @@ export const useFileContextMenuStore = create(
         folder: incomingFolder,
       })
     },
-    setRenaming: () => {
+    setRenaming: (value) => {
       set((state) => ({
-        renaming: !state.renaming,
+        renaming: value,
       }));
     },
+    setCreateFileOrFolder: (value) => {
+      set((state) => ({
+        createFileOrFolder: value,
+      }))
+    },
+    setToBeCreate: (value) => {
+      set({
+        toBeCreate: value
+      })
+    }
   }))
 );

@@ -1,6 +1,6 @@
 import { FaCss3, FaHtml5, FaJs, FaReact, FaReadme } from "react-icons/fa";
 import { IoIosGitBranch } from "react-icons/io";
-import { TbBrandEnvato, TbFileTypeSvg } from "react-icons/tb";
+import { TbBrandEnvato, TbFileTypeSvg, TbFileTypeXml } from "react-icons/tb";
 import { VscJson } from "react-icons/vsc";
 
 const FileIcon = ({ extension }) => {
@@ -21,6 +21,7 @@ const FileIcon = ({ extension }) => {
         'gitignore': <IoIosGitBranch color="#fffb17ff" style={iconStyle} />,
         'md': <FaReadme color="rgb(174, 3, 197)" style={iconStyle} />,
         'svg': <TbFileTypeSvg color="rgb(5, 223, 212)" style={iconStyle} />,
+        'xml': <TbFileTypeXml color="rgb(240, 97, 14)" style={iconStyle} />
         
     }
 

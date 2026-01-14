@@ -1,6 +1,5 @@
 import { useEditorSocketStore } from "../../../store/editorSocketStore"
 import { useFileContextMenuStore } from "../../../store/fileContextMenuStore"
-import { handleRenameFile } from "../TreeNode/TreeNode"
 import './FileContextMenu.css'
 import RenamingModal from "./RenamingModal"
 
@@ -15,12 +14,17 @@ const FileContextMenu = ({x, y, path}) => {
 
         editorSocket.emit("deleteFile", {
             pathToFileOrFolder: path
-        })
+        })  
     }
+
+    const handleRenameFile = (path, editorSocket) => {
+        console.log("renaming the file", path);
+        setRenaming(true)
+    };
 
   return (
     <>
-    { renaming ? <RenamingModal x={x} y={y} path={path} /> :
+    { renaming ? <RenamingModal x={x} y={y} path={path} creating={false}/> :
     <div
         className="fileContectOptionsWrapper"
         style={{

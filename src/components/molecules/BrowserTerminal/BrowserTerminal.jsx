@@ -39,7 +39,6 @@ export const BrowserTerminal = () => {
         const ws = new WebSocket("ws://localhost:3000/terminal?projectId="+projectIdFromUrl);
         
         ws.onopen = () => {
-            console.log("Browser terminal socket connection establishing")
             const attachAddon = new AttachAddon(ws);
             term.loadAddon(attachAddon);
             socket.current = ws;

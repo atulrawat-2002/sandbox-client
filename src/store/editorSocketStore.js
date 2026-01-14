@@ -29,9 +29,25 @@ export const useEditorSocketStore = create(
         treeStructureSetter();
       });
 
+      incomingSocket?.on("deleteFolderSuccess", (data) => {
+        treeStructureSetter();
+      })
+
+      incomingSocket?.on("createFileSuccess", () => {
+        treeStructureSetter();
+      })
+
+      incomingSocket?.on("createFolderSuccess", () => {
+        treeStructureSetter();
+      })
+
       incomingSocket?.on("getPortSuccess", (port) => {
             portSetter(port);
       });
+
+      incomingSocket.on("error", (data) => {
+        console.log("socket error", data);
+      })
 
       set({
         editorSocket: incomingSocket,
