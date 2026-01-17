@@ -11,7 +11,7 @@ const EditorButton = ({data}) => {
     const { allFileTabs, deleteTab } = useActiveFileTabStore();
 
     useEffect(() => {
-        // console.log("Useeffect Inside editor button", data?.key?.split('\\').pop());
+        console.log("Useeffect Inside editor button");
         
     }, [])
 
@@ -22,7 +22,6 @@ const EditorButton = ({data}) => {
     }
 
     function removeFileTab() {
-        console.log("deleting the file tab", data?.key);
         
         deleteTab(data?.key);
     }

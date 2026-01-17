@@ -10,7 +10,6 @@ const FolderContextMenu = ({ x, y, path }) => {
     useFileContextMenuStore();
 
   const handleDeleteFolder = () => {
-    console.log("deleting the foldet");
     editorSocket.emit("deleteFolder", {
       pathToFileOrFolder: path,
     });
@@ -18,7 +17,6 @@ const FolderContextMenu = ({ x, y, path }) => {
   };
 
   const handleRenameFile = (path, editorSocket) => {
-    console.log("renaming the file", path);
     setRenaming(true);
   };
 

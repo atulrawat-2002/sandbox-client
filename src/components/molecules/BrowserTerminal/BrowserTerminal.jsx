@@ -21,16 +21,17 @@ export const BrowserTerminal = () => {
                 background: "#1c2027",
                 foreground: "#f8f8f3",
                 cursorAccent: "#f8f8f3",
+                blue: '#000270',
             },
             fontSize: 16,
-            fontFamily: "Courier New",
+            fontFamily: "Cascadia Code",
             convertEol: true,
             
         })
         
         
         term.open(terminalRef.current);
-        let fitAddon = new FitAddon()
+        // let fitAddon = new FitAddon()
         // term.loadAddon(fitAddon);
         // fitAddon.fit()
         

@@ -26,7 +26,6 @@ const RenamingModal = ({ x, y, path, creating }) => {
   }
 
   function handleCreateFileOrFolder() {
-    console.log(fileOrFolderName)
     if(fileOrFolderName.trim() === "") {
       return;
     }

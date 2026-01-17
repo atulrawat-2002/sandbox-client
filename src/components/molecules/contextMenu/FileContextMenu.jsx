@@ -15,10 +15,10 @@ const FileContextMenu = ({x, y, path}) => {
         editorSocket.emit("deleteFile", {
             pathToFileOrFolder: path
         })  
-    }
+        setIsOpen(false);
+    }   
 
     const handleRenameFile = (path, editorSocket) => {
-        console.log("renaming the file", path);
         setRenaming(true)
     };
 

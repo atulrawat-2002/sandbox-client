@@ -26,7 +26,6 @@ const ProjectPlayground = () => {
   }
 
   useEffect(() => {
-    console.log("useeffect iside the plaground");
     const editorSocketConnection = io(
       `${import.meta.env.VITE_BACKEND_URL}/editor`,
       {
@@ -102,7 +101,6 @@ const ProjectPlayground = () => {
                 <BrowserTerminal />
               </Allotment>
             </div>
-            {/* TODO: Editor Button component for active file */}
             {<Browser />}
           </Allotment>
         </div>

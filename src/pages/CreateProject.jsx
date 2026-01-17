@@ -39,12 +39,10 @@ const CreateProject = () => {
     const { createProjectMutation, isPending, isSuccess, error } = useCreateProject()
 
     async function handleCreateProject() {
-        console.log("Going to trigger the create Project api")  
 
         try {
             const response = await createProjectMutation();
             navigate(`/project/${response.data}`)
-            console.log("Now we should redirected to editor page")
         } catch (error) {
             console.log(error)
         }

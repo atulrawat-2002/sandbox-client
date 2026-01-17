@@ -14,7 +14,6 @@ const RenamingModal = ({ x, y, path }) => {
   let count = 0;
 
   function nameChanging(e) {
-    // console.log(e.target.value);
     setName((prev) => (prev = e.target.value));   
   }
 

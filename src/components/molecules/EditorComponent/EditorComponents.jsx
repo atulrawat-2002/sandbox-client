@@ -10,7 +10,6 @@ const EditorComponents = () => {
   let timerId = null;
   const { editorSocket } = useEditorSocketStore();
   const { allFileTabs } = useActiveFileTabStore();
-  // console.log(allFileTabs?.map);
   
 
   const handleEditorTheme = (editor, monaco) => {
@@ -24,13 +23,12 @@ const EditorComponents = () => {
     }
 
     timerId = setTimeout(() => {
-      console.log("sending write file event");
       const editorcontent = value;
       editorSocket.emit("writeFile", {
         data: editorcontent,
         pathToFileOrFolder: allFileTabs?.head?.next?.key,
       });
-    }, 2000);
+    }, 3000);
   }
 
   useEffect(() => {

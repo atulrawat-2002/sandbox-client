@@ -22,11 +22,14 @@ class TabsData {
   }
 
     setTab(data) {
+
+      
       
       const {value, path:key} = data;
-
+      
       if(this.map.has(key)) {
         let node = this.map.get(key);
+        node.data = data?.value;
         node.prev.next = node.next;
         node.next.prev = node.prev;
 
