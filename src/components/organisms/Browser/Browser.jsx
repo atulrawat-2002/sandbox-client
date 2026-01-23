@@ -23,7 +23,19 @@ const Browser = () => {
     }
 
     if (!port) {
-        return <div>loading....</div>
+        return <div
+            style={{
+                backgroundColor: "#1c2027",
+                color: "white",
+                height: '100vh',
+                width: '100vw',
+                textAlign: "center",
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexDirection: 'column'
+            }}
+        > <h1>loading...</h1> </div>
     }
 
    return (

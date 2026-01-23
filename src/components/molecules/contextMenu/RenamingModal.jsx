@@ -58,7 +58,6 @@ const RenamingModal = ({ x, y, path, creating }) => {
       newPath.pop();
       newPath.push(name)
       newPath = newPath.join("\\");
-      console.log(oldPath, newPath); 
     
     editorSocket.emit("renameFile", {
       oldPath,
@@ -66,7 +65,6 @@ const RenamingModal = ({ x, y, path, creating }) => {
     });
 
     editorSocket.on("fileRenameSuccess", (data) => {
-        console.log("File renamed success",count++, data);
         setTreeStructure();
     })
     setRenaming(false);
@@ -79,12 +77,8 @@ const RenamingModal = ({ x, y, path, creating }) => {
     setIsOpen(false);
   }
 
-  useEffect(() => {
-    console.log("UseEffect in Renaming modal")
-  })
   
   if (creating) {
-    {console.log("renaming modal when creating is true")}
     return <>
       <div
       className="fileContectOptionsWrapper"

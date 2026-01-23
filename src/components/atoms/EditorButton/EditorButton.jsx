@@ -10,11 +10,6 @@ const EditorButton = ({data}) => {
     const { editorSocket } = useEditorSocketStore()
     const { allFileTabs, deleteTab } = useActiveFileTabStore();
 
-    useEffect(() => {
-        console.log("Useeffect Inside editor button");
-        
-    }, [])
-
     function handleClick() {
         const response = editorSocket.emit("readFile", {
       pathToFileOrFolder: data?.key,

@@ -39,9 +39,9 @@ const CreateProject = () => {
     const { createProjectMutation, isPending, isSuccess, error } = useCreateProject()
 
     async function handleCreateProject() {
-
         try {
             const response = await createProjectMutation();
+            
             navigate(`/project/${response.data}`)
         } catch (error) {
             console.log(error)

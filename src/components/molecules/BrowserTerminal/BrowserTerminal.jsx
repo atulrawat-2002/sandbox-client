@@ -5,11 +5,13 @@ import { useEffect, useRef } from "react"
 import { useParams } from "react-router-dom"
 import { AttachAddon } from "@xterm/addon-attach"
 import "./BrowserTerminal.css"
+import { usePortStore } from "../../../store/portStore"
 
 export const BrowserTerminal = () => {
 
     const terminalRef = useRef(null)
     const socket = useRef(null)
+    const { setTerminalConnection } = usePortStore();
     const  { projectId: projectIdFromUrl }  = useParams();
 
     useEffect(() => {        
@@ -28,8 +30,7 @@ export const BrowserTerminal = () => {
             convertEol: true,
             
         })
-        
-        
+                
         term.open(terminalRef.current);
         // let fitAddon = new FitAddon()
         // term.loadAddon(fitAddon);
@@ -39,13 +40,15 @@ export const BrowserTerminal = () => {
 
         const ws = new WebSocket("ws://localhost:3000/terminal?projectId="+projectIdFromUrl);
         
-        ws.onopen = () => {
+        ws.onopen = (s) => {
             const attachAddon = new AttachAddon(ws);
             term.loadAddon(attachAddon);
             socket.current = ws;
+            setTerminalConnection(ws)
+                        
+            }
 
-        }
-
+         
         return () => {
             term.dispose()
             if (socket?.current) socket?.current.close();
@@ -53,7 +56,10 @@ export const BrowserTerminal = () => {
 
     }, [])
 
+    
     return (
+        <>
+
         <div
         id='browser-terminal'
         ref={terminalRef}
@@ -62,5 +68,7 @@ export const BrowserTerminal = () => {
         >
 
         </div>
+        </>
+
     )
 }

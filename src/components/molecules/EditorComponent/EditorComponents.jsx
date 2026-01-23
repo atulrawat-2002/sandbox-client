@@ -28,13 +28,11 @@ const EditorComponents = () => {
         data: editorcontent,
         pathToFileOrFolder: allFileTabs?.head?.next?.key,
       });
-    }, 3000);
+    }, 1500);
   }
 
   useEffect(() => {
     
-    console.log("useeffect in editor component");
-
       }, [allFileTabs?.map]);
 
   return (

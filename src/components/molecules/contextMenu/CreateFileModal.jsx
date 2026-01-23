@@ -19,10 +19,6 @@ const RenamingModal = ({ x, y, path }) => {
 
 
 
-  useEffect(() => {
-    console.log("UseEffect in Rnaming tree modal")
-  })
-
   return (
     <div
       className="fileContectOptionsWrapper"
