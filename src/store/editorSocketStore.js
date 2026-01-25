@@ -8,11 +8,10 @@ export const useEditorSocketStore = create(
   devtools((set) => ({
     editorSocket: null,
     setEditorSocket: (incomingSocket) => {
-      const activeFileTabSetter =
-        useActiveFileTabStore.getState().setTab;
+      const activeFileTabSetter = useActiveFileTabStore.getState().setTab;
       const treeStructureSetter =
         useTreeStructureStore.getState().setTreeStructure;
-        const portSetter = usePortStore.getState().setPort; 
+      const portSetter = usePortStore.getState().setPort;
 
       incomingSocket?.on("readFileSuccess", (data) => {
         activeFileTabSetter(data);
@@ -20,8 +19,8 @@ export const useEditorSocketStore = create(
 
       incomingSocket?.on("writeFileSuccess", (data) => {
         incomingSocket.emit("readFile", {
-            pathToFileOrFolder: data.path
-        })
+          pathToFileOrFolder: data.path,
+        });
       });
 
       incomingSocket?.on("deleteFileSuccess", (data) => {
@@ -30,27 +29,27 @@ export const useEditorSocketStore = create(
 
       incomingSocket?.on("deleteFolderSuccess", (data) => {
         treeStructureSetter();
-      })
+      });
 
       incomingSocket?.on("createFileSuccess", () => {
         treeStructureSetter();
-      })
+      });
 
       incomingSocket?.on("createFolderSuccess", () => {
         treeStructureSetter();
-      })
+      });
 
       incomingSocket?.on("getPortSuccess", (port) => {
-            portSetter(port);
+        portSetter(port);
       });
 
       incomingSocket.on("error", (data) => {
         console.log("socket error", data);
-      })
+      });
 
       set({
         editorSocket: incomingSocket,
       });
     },
-  }))
+  })),
 );
