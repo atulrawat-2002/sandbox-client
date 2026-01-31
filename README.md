@@ -1,16 +1,33 @@
-# React + Vite
+# Sandbox Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend for the Sandbox Clone project.  
+It provides the UI for interacting with isolated coding environments running in Docker containers.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## What this frontend does
 
-## React Compiler
+- Allows users to create a new React project
+- Displays a file tree for the project
+- Supports file operations (open, rename, delete)
+- Provides an in-browser code editor
+- Provides a terminal inside the browser
+- Connects to container services using dynamic ports
+- Communicates with backend via WebSockets
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech stack
 
-## Expanding the ESLint configuration
+- React
+- Vite
+- Zustand
+- Monaco Editor
+- xterm.js
+- Socket.IO client
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Notes
+
+- This frontend does not run user code locally
+- All project execution happens inside containers
+- The frontend only acts as a client and controller
+
+The focus of this frontend is usability and responsiveness rather than visual polish.
